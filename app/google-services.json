@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "698233109045",
+    "project_id": "gita-saathi-d592e",
+    "storage_bucket": "gita-saathi-d592e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698233109045:android:15b0cb5cd7b89465f08f7c",
+        "android_client_info": {
+          "package_name": "com.nkapps.gitasaathi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsnK-PNTGDrbTb0yPoa2Cg-H8o2XWdViU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
