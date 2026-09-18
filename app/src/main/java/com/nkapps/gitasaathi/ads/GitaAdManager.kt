@@ -24,6 +24,9 @@ object GitaAdManager {
     private const val PREFS_NAME = "gita_subscription_prefs"
     private const val KEY_IS_GOLD_MEMBER = "is_gold_member"
 
+    // TEMPORARY MASTER TOGGLE: Set to false to disable all ads (banners & interstitials) across the app
+    const val ADS_ENABLED = false
+
     // Official Google AdMob Sample Test Ad Unit IDs
     const val TEST_BANNER_AD_ID = "ca-app-pub-3940256099942544/6300978111"
     const val TEST_INTERSTITIAL_AD_ID = "ca-app-pub-3940256099942544/1033173712"
@@ -41,7 +44,7 @@ object GitaAdManager {
     fun init(context: Context) {
         val prefs = getPrefs(context)
         _isPremiumUser.value = prefs.getBoolean(KEY_IS_GOLD_MEMBER, false)
-        if (!_isPremiumUser.value) {
+        if (ADS_ENABLED && !_isPremiumUser.value) {
             loadInterstitial(context.applicationContext)
         }
     }
@@ -57,7 +60,7 @@ object GitaAdManager {
     fun setPremiumStatus(context: Context, isPremium: Boolean) {
         _isPremiumUser.value = isPremium
         getPrefs(context).edit().putBoolean(KEY_IS_GOLD_MEMBER, isPremium).apply()
-        if (isPremium) {
+        if (isPremium || !ADS_ENABLED) {
             interstitialAd = null
         } else {
             loadInterstitial(context.applicationContext)
@@ -68,7 +71,7 @@ object GitaAdManager {
      * Preloads an interstitial ad in the background.
      */
     fun loadInterstitial(context: Context) {
-        if (_isPremiumUser.value || isAdLoading || interstitialAd != null) return
+        if (!ADS_ENABLED || _isPremiumUser.value || isAdLoading || interstitialAd != null) return
 
         isAdLoading = true
         val adRequest = AdRequest.Builder().build()
@@ -98,7 +101,7 @@ object GitaAdManager {
      * If user is Gold or cooldown has not passed, calls [onDismissed] immediately without interrupting.
      */
     fun showInterstitialWithCooldown(activity: Activity, onDismissed: () -> Unit) {
-        if (_isPremiumUser.value) {
+        if (!ADS_ENABLED || _isPremiumUser.value) {
             onDismissed()
             return
         }
@@ -139,7 +142,7 @@ object GitaAdManager {
      * Automatically skips for Gold members or when ad is not yet cached.
      */
     fun showInterstitial(activity: Activity, onDismissed: () -> Unit) {
-        if (_isPremiumUser.value) {
+        if (!ADS_ENABLED || _isPremiumUser.value) {
             onDismissed()
             return
         }

@@ -1,4 +1,4 @@
-﻿package com.nkapps.gitasaathi.ads
+package com.nkapps.gitasaathi.ads
 
 import android.util.Log
 import android.view.ViewGroup
@@ -39,8 +39,8 @@ fun AdmobBanner(
 ) {
     val isPremium by GitaAdManager.isPremiumUser.collectAsState()
 
-    if (isPremium) {
-        // Zero-height / completely hidden for Gold subscribers
+    if (!GitaAdManager.ADS_ENABLED || isPremium) {
+        // Zero-height / completely hidden when ads are disabled or for Gold subscribers
         return
     }
 
