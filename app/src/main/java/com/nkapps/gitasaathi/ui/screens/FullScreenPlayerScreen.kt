@@ -1,4 +1,4 @@
-﻿package com.nkapps.gitasaathi.ui.screens
+package com.nkapps.gitasaathi.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -91,6 +91,7 @@ import com.nkapps.gitasaathi.ui.components.getSpiritualSceneForVerse
 import com.nkapps.gitasaathi.ui.components.VerseAnimationVideoPlayer
 import com.nkapps.gitasaathi.ui.components.getVerseVideoTheme
 import kotlinx.coroutines.delay
+import java.util.Locale
 
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Share
@@ -141,8 +142,8 @@ fun FullScreenPlayerScreen(
 
     val currentSeconds = (audioCurrentTime / 1000).toInt()
     val totalSeconds = (audioTotalTime / 1000).toInt()
-    val formattedCurrent = String.format("%d:%02d", currentSeconds / 60, currentSeconds % 60)
-    val formattedTotal = String.format("%d:%02d", totalSeconds / 60, totalSeconds % 60)
+    val formattedCurrent = String.format(Locale.US, "%d:%02d", currentSeconds / 60, currentSeconds % 60)
+    val formattedTotal = String.format(Locale.US, "%d:%02d", totalSeconds / 60, totalSeconds % 60)
 
     val scrollState = rememberScrollState()
 

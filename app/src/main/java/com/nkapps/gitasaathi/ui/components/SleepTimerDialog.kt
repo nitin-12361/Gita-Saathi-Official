@@ -1,4 +1,4 @@
-﻿package com.nkapps.gitasaathi.ui.components
+package com.nkapps.gitasaathi.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +18,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.nkapps.gitasaathi.data.AppLanguage
 import com.nkapps.gitasaathi.ui.SleepTimerOption
+import java.util.Locale
 
 @Composable
 fun SleepTimerDialog(
@@ -88,7 +89,7 @@ fun SleepTimerDialog(
                     ) {
                         val mins = secondsRemaining / 60
                         val secs = secondsRemaining % 60
-                        val formattedTime = String.format("%02d:%02d", mins, secs)
+                        val formattedTime = String.format(Locale.US, "%02d:%02d", mins, secs)
                         Row(
                             modifier = Modifier.padding(12.dp),
                             horizontalArrangement = Arrangement.Center,
