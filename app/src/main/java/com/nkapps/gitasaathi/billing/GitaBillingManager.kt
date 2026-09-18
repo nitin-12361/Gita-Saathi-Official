@@ -118,8 +118,9 @@ object GitaBillingManager : PurchasesUpdatedListener {
             .setProductList(productList)
             .build()
 
-        client.queryProductDetailsAsync(params) { billingResult, productDetailsList ->
+        client.queryProductDetailsAsync(params) { billingResult, queryProductDetailsResult ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                val productDetailsList = queryProductDetailsResult.productDetailsList
                 productDetailsList.forEach { details ->
                     productDetailsMap[details.productId] = details
                     val offer = details.subscriptionOfferDetails?.firstOrNull()
