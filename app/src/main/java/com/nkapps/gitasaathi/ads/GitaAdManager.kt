@@ -24,8 +24,8 @@ object GitaAdManager {
     private const val PREFS_NAME = "gita_subscription_prefs"
     private const val KEY_IS_GOLD_MEMBER = "is_gold_member"
 
-    // TEMPORARY MASTER TOGGLE: Set to false to disable all ads (banners & interstitials) across the app
-    const val ADS_ENABLED = false
+    // MASTER ADS TOGGLE: Enabled for live AdMob monetization
+    const val ADS_ENABLED = true
 
     // Official Google AdMob Sample Test Ad Unit IDs
     const val TEST_BANNER_AD_ID = "ca-app-pub-3940256099942544/6300978111"

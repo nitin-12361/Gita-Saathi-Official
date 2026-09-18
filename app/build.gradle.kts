@@ -15,6 +15,13 @@ android {
   namespace = "com.nkapps.gitasaathi"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
 
+  val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) {
+      f.inputStream().use { load(it) }
+    }
+  }
+
   defaultConfig {
     applicationId = "com.nkapps.gitasaathi"
     minSdk = 24
@@ -23,12 +30,6 @@ android {
     versionName = "1.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    val localProps = Properties().apply {
-      val f = rootProject.file("local.properties")
-      if (f.exists()) {
-        f.inputStream().use { load(it) }
-      }
-    }
     val hfToken = System.getenv("HUGGING_FACE_TOKEN")
       ?: project.findProperty("HUGGING_FACE_TOKEN") as? String
       ?: localProps.getProperty("HUGGING_FACE_TOKEN")
@@ -41,8 +42,12 @@ android {
       val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
       storeFile = file(keystorePath)
       storePassword = System.getenv("STORE_PASSWORD")
+        ?: localProps.getProperty("STORE_PASSWORD")
+        ?: "GitaSaathi@2026"
       keyAlias = "upload"
       keyPassword = System.getenv("KEY_PASSWORD")
+        ?: localProps.getProperty("KEY_PASSWORD")
+        ?: "GitaSaathi@2026"
     }
   }
 
