@@ -32,19 +32,19 @@
   - **Type**: `Auto-renewing`
   - **Billing period**: `1 month`
   - **Grace period**: `7 days` (अनुशंसित)
-  - **Price (India)**: `₹49.00 INR` (अन्य देशों के लिए Google स्वतः कन्वर्ट करेगा)
+  - **Price (India)**: `₹101.00 INR` (अन्य देशों के लिए Google स्वतः कन्वर्ट करेगा)
 - **Save & Activate** पर क्लिक करें।
 
 ### 🔹 प्लान 2: वार्षिक (Yearly Subscription)
 - **Product ID**: `gita_gold_yearly` *(हूबहू यही स्पेलिंग रखें)*
 - **Name**: `Gita Saathi Gold - Yearly`
-- **Description**: `100% Ad-Free spiritual reading & audio with 32% annual savings.`
+- **Description**: `100% Ad-Free spiritual reading & audio with 58% annual savings.`
 - **Base Plan**:
   - **Base Plan ID**: `yearly-base-plan`
   - **Type**: `Auto-renewing`
   - **Billing period**: `1 year`
   - **Grace period**: `16 days` (अनुशंसित)
-  - **Price (India)**: `₹399.00 INR`
+  - **Price (India)**: `₹501.00 INR`
 - **Save & Activate** पर क्लिक करें।
 
 ---
@@ -55,7 +55,7 @@
 1. Play Console के होम पेज पर जाएँ ➔ **Settings** ➔ **License Testing** (या **Developer account** ➔ **Account details** ➔ **License testing**)।
 2. अपना Gmail ID (जो आपके फोन के Play Store में लॉगिन है) यहाँ जोड़ें।
 3. **License response**: `RESPOND_NORMALLY` चुनें।
-4. अब जब आप ऐप में ₹49 या ₹399 वाले बटन पर क्लिक करेंगे, तो Google Play एक "Test Instrument (Always Approves)" का ऑप्शन दिखाएगा, जिससे ₹0 में खरीदारी सफलतापूर्वक टेस्ट हो जाएगी।
+4. अब जब आप ऐप में ₹101 या ₹501 वाले बटन पर क्लिक करेंगे, तो Google Play एक "Test Instrument (Always Approves)" का ऑप्शन दिखाएगा, जिससे ₹0 में खरीदारी सफलतापूर्वक टेस्ट हो जाएगी।
 
 ---
 

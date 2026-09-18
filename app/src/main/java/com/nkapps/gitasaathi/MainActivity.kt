@@ -690,7 +690,9 @@ fun GitaSaathiAppContent(
                             onDarkModeToggle = onDarkModeToggle,
                             onAiChatClick = onAiChatClick,
                             onApiKeyClick = onApiKeyClick,
-                            onGoldClick = { navigateTo(Screen.GOLD) }
+                            onGoldClick = { navigateTo(Screen.GOLD) },
+                            quizState = dailyQuizState,
+                            onQuizClick = onOpenQuiz
                         )
                     }
                 },

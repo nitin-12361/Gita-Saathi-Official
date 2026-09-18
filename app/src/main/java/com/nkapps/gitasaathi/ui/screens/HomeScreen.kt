@@ -25,7 +25,13 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Circle
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.os.Build
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.PlayArrow
@@ -34,7 +40,10 @@ import androidx.compose.material.icons.filled.SelfImprovement
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material.icons.filled.Wallpaper
 import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material.icons.filled.Widgets
+import com.nkapps.gitasaathi.widget.DailyShlokaWidgetProvider
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -105,50 +114,63 @@ fun HomeScreen(
         contentPadding = PaddingValues(top = 8.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        // 1. Top Sacred Header Banner
+        // 1. Top Sacred Header Banner (Devotional Saffron-Gold Temple Glow)
         item {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("welcome_banner_card"),
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                ),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f))
+                border = BorderStroke(1.dp, Color(0xFFFFD54F).copy(alpha = 0.45f)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
             ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(
+                                    Color(0xFF4A1F03),
+                                    Color(0xFF7A3705),
+                                    Color(0xFF4A1F03)
+                                )
+                            )
+                        )
+                        .padding(horizontal = 16.dp, vertical = 14.dp)
                 ) {
-                    Surface(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)),
-                        modifier = Modifier.size(46.dp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Box(contentAlignment = Alignment.Center) {
+                        Surface(
+                            shape = CircleShape,
+                            color = Color(0xFFFFB300).copy(alpha = 0.25f),
+                            border = BorderStroke(1.5.dp, Color(0xFFFFD54F).copy(alpha = 0.7f)),
+                            modifier = Modifier.size(46.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Text(
+                                    text = "🕉️",
+                                    fontSize = 22.sp
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(14.dp))
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "🕉️",
-                                fontSize = 22.sp
+                                text = if (isHindi) "ॐ श्री परमात्मने नमः" else "Om Shri Paramatmane Namah",
+                                fontSize = 17.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                color = Color(0xFFFFE082)
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = if (isHindi) "श्रीमद्भगवद्गीता • दिव्य ज्ञान एवं साधना" else "Srimad Bhagavad Gita • Divine Wisdom",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color(0xFFFFD180).copy(alpha = 0.9f)
                             )
                         }
-                    }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = if (isHindi) "ॐ श्री परमात्मने नमः" else "Om Shri Paramatmane Namah",
-                            fontSize = 17.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = if (isHindi) "श्रीमद्भगवद्गीता • दिव्य ज्ञान एवं साधना" else "Srimad Bhagavad Gita • Divine Wisdom",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
                     }
                 }
             }
@@ -169,7 +191,7 @@ fun HomeScreen(
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    // ROW 1: 18 Chapters | Shorts Videos | Audio Shloka
+                    // ROW 1: 18 Chapters | Audio Chanting | Japa Mala (108 Beads)
                     Row(modifier = Modifier.fillMaxWidth().height(115.dp)) {
                         GridCellItem(
                             icon = Icons.Default.Book,
@@ -180,34 +202,26 @@ fun HomeScreen(
                         )
                         VerticalDivider(color = gridDividerColor, thickness = 1.dp)
                         GridCellItem(
-                            icon = Icons.Default.Videocam,
-                            title = if (isHindi) "शॉर्ट्स" else "Shorts Videos",
-                            subtitle = if (isHindi) "वीडियो श्लोक" else "Video Reels",
-                            onClick = { onOpenShorts(null) },
-                            modifier = Modifier.weight(1f)
-                        )
-                        VerticalDivider(color = gridDividerColor, thickness = 1.dp)
-                        GridCellItem(
                             icon = Icons.Default.Headphones,
                             title = if (isHindi) "ऑडियो" else "Audio",
                             subtitle = if (isHindi) "संस्कृत पाठ" else "Chanting",
                             onClick = { onPlayVerseAudio(shlokaOfTheDay) },
                             modifier = Modifier.weight(1f)
                         )
+                        VerticalDivider(color = gridDividerColor, thickness = 1.dp)
+                        GridCellItem(
+                            icon = Icons.Default.Circle,
+                            title = if (isHindi) "जप माला" else "Japa Mala",
+                            subtitle = if (isHindi) "१०८ मणके" else "108 Beads",
+                            onClick = { onOpenJapaMala() },
+                            modifier = Modifier.weight(1f).testTag("home_grid_japa_mala")
+                        )
                     }
 
                     HorizontalDivider(color = gridDividerColor, thickness = 1.dp)
 
-                    // ROW 2: Gita AI | Daily Shloka | Bookmarks
+                    // ROW 2: Daily Shloka | Daily Quiz & Karma | Krishna HD Wallpapers
                     Row(modifier = Modifier.fillMaxWidth().height(115.dp)) {
-                        GridCellItem(
-                            icon = Icons.Default.AutoAwesome,
-                            title = if (isHindi) "गीता AI साथी" else "Gita AI Guru",
-                            subtitle = if (isHindi) "मार्गदर्शन" else "Ask Krishna",
-                            onClick = { onOpenAiChat() },
-                            modifier = Modifier.weight(1f)
-                        )
-                        VerticalDivider(color = gridDividerColor, thickness = 1.dp)
                         GridCellItem(
                             icon = Icons.Default.WbSunny,
                             title = if (isHindi) "आज का श्लोक" else "Daily Shloka",
@@ -217,17 +231,25 @@ fun HomeScreen(
                         )
                         VerticalDivider(color = gridDividerColor, thickness = 1.dp)
                         GridCellItem(
-                            icon = Icons.Default.Star,
-                            title = if (isHindi) "मेरी पसंद" else "Bookmarks",
-                            subtitle = if (isHindi) "सहेजे श्लोक" else "Saved Verses",
-                            onClick = { onBookmarkPageClick() },
-                            modifier = Modifier.weight(1f)
+                            icon = Icons.Default.EmojiEvents,
+                            title = if (isHindi) "गीता क्विज़" else "Daily Quiz",
+                            subtitle = if (isHindi) "पुण्य अंक" else "Karma Points",
+                            onClick = { onOpenQuiz() },
+                            modifier = Modifier.weight(1f).testTag("home_grid_quiz")
+                        )
+                        VerticalDivider(color = gridDividerColor, thickness = 1.dp)
+                        GridCellItem(
+                            icon = Icons.Default.Wallpaper,
+                            title = if (isHindi) "वॉलपेपर्स" else "Wallpapers",
+                            subtitle = if (isHindi) "4K कृष्ण दर्शन" else "HD 4K Art",
+                            onClick = { onOpenWallpapers() },
+                            modifier = Modifier.weight(1f).testTag("home_grid_wallpapers")
                         )
                     }
 
                     HorizontalDivider(color = gridDividerColor, thickness = 1.dp)
 
-                    // ROW 3: Search | Gita Summary | Mind Peace
+                    // ROW 3: Search | Mind Peace (Solutions) | Bookmarks (Saved)
                     Row(modifier = Modifier.fillMaxWidth().height(115.dp)) {
                         GridCellItem(
                             icon = Icons.Default.Search,
@@ -238,18 +260,18 @@ fun HomeScreen(
                         )
                         VerticalDivider(color = gridDividerColor, thickness = 1.dp)
                         GridCellItem(
-                            icon = Icons.Default.Circle,
-                            title = if (isHindi) "जप माला" else "Japa Mala",
-                            subtitle = if (isHindi) "१०८ मणके" else "108 Beads",
-                            onClick = { onOpenJapaMala() },
-                            modifier = Modifier.weight(1f).testTag("home_grid_japa_mala")
-                        )
-                        VerticalDivider(color = gridDividerColor, thickness = 1.dp)
-                        GridCellItem(
                             icon = Icons.Default.SelfImprovement,
                             title = if (isHindi) "मन की शांति" else "Mind Peace",
                             subtitle = if (isHindi) "समाधान" else "Solutions",
                             onClick = { onMoodClick(GitaMoodData.MOODS.first()) },
+                            modifier = Modifier.weight(1f)
+                        )
+                        VerticalDivider(color = gridDividerColor, thickness = 1.dp)
+                        GridCellItem(
+                            icon = Icons.Default.Star,
+                            title = if (isHindi) "मेरी पसंद" else "Bookmarks",
+                            subtitle = if (isHindi) "सहेजे श्लोक" else "Saved Verses",
+                            onClick = { onBookmarkPageClick() },
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -604,6 +626,34 @@ fun HomeScreen(
                             )
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    // 📲 WhatsApp / Story Image Status Share Button (Viral Growth)
+                    Button(
+                        onClick = { onShareStory(shlokaOfTheDay) },
+                        shape = RoundedCornerShape(14.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF1B5E20),
+                            contentColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(44.dp)
+                            .testTag("home_share_status_card_button")
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = "Share Status Card",
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if (isHindi) "📲 WhatsApp स्टेटस फोटो शेयर करें" else "📲 Share Image Status (Story)",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }
@@ -662,6 +712,94 @@ fun HomeScreen(
                                 fontWeight = FontWeight.Bold
                             )
                         }
+                    }
+                }
+            }
+        }
+
+        // 5. HOME SCREEN WIDGET PROMOTION (अपने फोन स्क्रीन पर श्लोक लगाएं)
+        item {
+            val context = LocalContext.current
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("home_widget_promo_card"),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Surface(
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                            modifier = Modifier.size(44.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.Default.Widgets,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
+                            Text(
+                                text = if (isHindi) "होम स्क्रीन पर श्लोक लगाएं" else "Add Daily Shloka Widget",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Text(
+                                text = if (isHindi) "फोन खोलते ही पाएं पावन गीता उपदेश" else "Sacred verse right on phone lock/home screen",
+                                fontSize = 11.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Button(
+                        onClick = {
+                            val appWidgetManager = AppWidgetManager.getInstance(context)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && appWidgetManager != null && appWidgetManager.isRequestPinAppWidgetSupported) {
+                                val myProvider = ComponentName(context, DailyShlokaWidgetProvider::class.java)
+                                appWidgetManager.requestPinAppWidget(myProvider, null, null)
+                            } else {
+                                val msg = if (isHindi)
+                                    "अपने फोन की होम स्क्रीन पर खाली जगह दबाए रखें और 'Gita Saathi' विजेट जोड़ें।"
+                                else
+                                    "Long-press your phone's home screen and add the Gita Saathi widget."
+                                Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+                            }
+                        },
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
+                        modifier = Modifier.height(36.dp)
+                    ) {
+                        Text(
+                            text = if (isHindi) "जोड़ें ➕" else "Add ➕",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }

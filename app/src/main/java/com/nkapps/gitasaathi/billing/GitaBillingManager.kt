@@ -1,4 +1,4 @@
-﻿package com.nkapps.gitasaathi.billing
+package com.nkapps.gitasaathi.billing
 
 import android.app.Activity
 import android.content.Context
@@ -50,10 +50,10 @@ object GitaBillingManager : PurchasesUpdatedListener {
     private val _isConnected = MutableStateFlow(false)
     val isConnected: StateFlow<Boolean> = _isConnected.asStateFlow()
 
-    private val _monthlyPrice = MutableStateFlow("₹49")
+    private val _monthlyPrice = MutableStateFlow("₹101")
     val monthlyPrice: StateFlow<String> = _monthlyPrice.asStateFlow()
 
-    private val _yearlyPrice = MutableStateFlow("₹399")
+    private val _yearlyPrice = MutableStateFlow("₹501")
     val yearlyPrice: StateFlow<String> = _yearlyPrice.asStateFlow()
 
     private val productDetailsMap = mutableMapOf<String, ProductDetails>()

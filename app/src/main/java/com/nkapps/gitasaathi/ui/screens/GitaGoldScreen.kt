@@ -1,4 +1,4 @@
-﻿package com.nkapps.gitasaathi.ui.screens
+package com.nkapps.gitasaathi.ui.screens
 
 import android.app.Activity
 import android.widget.Toast
@@ -261,19 +261,19 @@ fun GitaGoldScreen(
                 modifier = Modifier.padding(start = 4.dp, bottom = 10.dp)
             )
 
-            // Yearly Card (Recommended - ₹399)
+            // Yearly Card (Recommended - ₹501)
             PlanCard(
                 title = if (appLanguage == AppLanguage.HINDI) "वार्षिक योजना (Yearly)" else "Annual Plan",
                 price = yearlyPrice,
-                period = if (appLanguage == AppLanguage.HINDI) "प्रति वर्ष (₹33/माह)" else "per year (₹33/mo)",
-                badge = if (appLanguage == AppLanguage.HINDI) "32% बचत • सर्वाधिक लोकप्रिय" else "Save 32% • Best Value",
+                period = if (appLanguage == AppLanguage.HINDI) "प्रति वर्ष (₹42/माह)" else "per year (₹42/mo)",
+                badge = if (appLanguage == AppLanguage.HINDI) "58% बचत • शुभ 501" else "Save 58% • Best Value",
                 isSelected = selectedPlan == GoldPlan.YEARLY,
                 onClick = { selectedPlan = GoldPlan.YEARLY }
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Monthly Card (₹49)
+            // Monthly Card (₹101)
             PlanCard(
                 title = if (appLanguage == AppLanguage.HINDI) "मासिक योजना (Monthly)" else "Monthly Plan",
                 price = monthlyPrice,

@@ -498,7 +498,7 @@ fun InstagramReelItem(
                 )
             }
     ) {
-        // 1. Fullscreen Video / Canvas
+        // 1. 9:16 Video / Canvas (Fit mode ensures full 9:16 aspect ratio without cropping borders or icons)
         if (videoUri != null && exoPlayer != null && !hasVideoError) {
             key(videoUri) {
                 AndroidView(
@@ -506,7 +506,7 @@ fun InstagramReelItem(
                         PlayerView(ctx).apply {
                             player = exoPlayer
                             useController = false
-                            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
                         }
                     },
                     modifier = Modifier.fillMaxSize()

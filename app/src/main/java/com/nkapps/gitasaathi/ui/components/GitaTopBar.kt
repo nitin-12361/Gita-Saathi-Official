@@ -1,4 +1,4 @@
-﻿package com.nkapps.gitasaathi.ui.components
+package com.nkapps.gitasaathi.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -44,6 +44,8 @@ import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.RecordVoiceOver
 
+import com.nkapps.gitasaathi.data.DailyQuizState
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GitaTopBar(
@@ -56,7 +58,9 @@ fun GitaTopBar(
     onDarkModeToggle: () -> Unit,
     onAiChatClick: () -> Unit = {},
     onApiKeyClick: () -> Unit = {},
-    onGoldClick: () -> Unit = {}
+    onGoldClick: () -> Unit = {},
+    quizState: DailyQuizState? = null,
+    onQuizClick: () -> Unit = {}
 ) {
     TopAppBar(
         modifier = Modifier
@@ -129,16 +133,42 @@ fun GitaTopBar(
                 )
             }
 
-            // Gemini AI Chat Button
-            IconButton(
-                onClick = onAiChatClick,
-                modifier = Modifier.testTag("top_bar_ai_chat_button")
-            ) {
-                Icon(
-                    imageVector = Icons.Default.AutoAwesome,
-                    contentDescription = "Ask Gita AI",
-                    tint = MaterialTheme.colorScheme.primary
-                )
+            // Daily Streak Badge (Habit Loop) or AI Button
+            if (quizState != null && quizState.quizStreak > 0) {
+                Surface(
+                    onClick = onQuizClick,
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)),
+                    modifier = Modifier
+                        .padding(end = 2.dp)
+                        .testTag("top_bar_streak_badge")
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                    ) {
+                        Text(text = "🔥", fontSize = 12.sp)
+                        Spacer(modifier = Modifier.width(3.dp))
+                        Text(
+                            text = "${quizState.quizStreak}",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            } else {
+                IconButton(
+                    onClick = onAiChatClick,
+                    modifier = Modifier.testTag("top_bar_ai_chat_button")
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AutoAwesome,
+                        contentDescription = "Ask Gita AI",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
             // Language Dual Switch: [ 🇮🇳 हिंदी ] | [ 🇬🇧 English ]
