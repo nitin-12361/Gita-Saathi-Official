@@ -404,7 +404,7 @@ class ExampleRobolectricTest {
 
   @Test
   fun `verify Hugging Face private repository streaming token is configured`() {
-    val token = com.nkapps.gitasaathi.data.GitaExoPlayerManager.HUGGING_FACE_TOKEN
+    val token = com.nkapps.gitasaathi.data.GitaExoPlayerManager.huggingFaceToken
     org.junit.Assert.assertNotNull(token)
     assertEquals("https://huggingface.co/datasets/nitinkoli12361/gita-saathi-videos/resolve/main", com.nkapps.gitasaathi.data.GitaVideoResolver.HUGGING_FACE_BASE_URL)
   }
